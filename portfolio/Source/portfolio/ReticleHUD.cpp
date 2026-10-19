@@ -10,9 +10,15 @@ void AReticleHUD::DrawHUD()
 		return;
 	}
 
-	const float CenterX = Canvas->ClipX * 0.5f;
-	const float CenterY = Canvas->ClipY * 0.5f;
-	const float Half = ReticleSize * 0.5f;
+	
+	const float CX = Canvas->ClipX * 0.5f;
+	const float CY = Canvas->ClipY * 0.5f;
 
-	DrawRect(ReticleColor, CenterX - Half, CenterY - Half, ReticleSize, ReticleSize);
+	const int32 R = FMath::CeilToInt(Radius);
+	for (int32 Y = -R; Y < R; ++Y)
+	{
+		const float DY = Y + 0.5f;
+		const float HalfWidth = FMath::Sqrt(FMath::Max(0.0f, Radius * Radius - DY * DY));
+		DrawRect(ReticleColor, CX - HalfWidth, CY + Y, HalfWidth * 2.0f, 1.0f);
+	}
 }

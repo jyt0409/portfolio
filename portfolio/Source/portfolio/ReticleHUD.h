@@ -14,7 +14,7 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Reticle")
-	float ReticleSize = 6.0f;
+	float Radius = 4.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Reticle")
 	FLinearColor ReticleColor = FLinearColor::White;
