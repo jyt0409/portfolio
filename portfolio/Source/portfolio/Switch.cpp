@@ -11,6 +11,7 @@ ASwitch::ASwitch()
 
 	SwitchMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SwitchMesh"));
 	SwitchMesh->SetupAttachment(Root);
+	SwitchMesh->SetMobility(EComponentMobolity::Movable);
 
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
 	TriggerBox->SetupAttachment(Root);
@@ -41,6 +42,12 @@ void ASwitch::OnPlayerEnter(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	}
 
 	bPressed = true;
+	// Change the look of the switch so the player knows it was pressed
+	SwitchMesh->AddLocalOffset(FVector(0.0f, 0.0f, -PressDepth));
+	if (PressedMaterial)
+	{
+		SwitchMesh->SetMaterial(0, PressedMaterial);
+	}
 
 	// Activate every target gimmick
 	for (AGimmickBase* Target : Targets)

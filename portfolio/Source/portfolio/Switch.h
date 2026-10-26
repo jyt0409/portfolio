@@ -6,6 +6,7 @@
 
 class AGimmickBase;
 class UBoxComponent;
+class UMaterialInterface;
 
 UCLASS()
 class PORTFOLIO_API ASwitch : public AActor
@@ -32,6 +33,12 @@ protected:
 	
 	UPROPERTY(EditInstanceOnly)
 	TArray<AGimmickBase*> Targets;
+
+	UPROPERTY(EditAnyWhere)
+	UMaterialInterface* PressedMaterial;
+
+	UPROPERTY(EditAnyWhere)
+	float PressDepth = 5.0f;
 
 private:
 	UFUNCTION()
