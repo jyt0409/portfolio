@@ -3,6 +3,9 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/PlayerController.h"
+#include "Camera/CameraActor.h"
+#include "TimerManager.h"
 
 
 ASwitch::ASwitch()
@@ -49,7 +52,7 @@ void ASwitch::OnPlayerEnter(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		SwitchMesh->SetMaterial(0, PressedMaterial);
 	}
 
-	// Activate every target gimmick
+	// Activate every target gimmickb
 	for (AGimmickBase* Target : Targets)
 	{
 		if (Target)
@@ -57,4 +60,28 @@ void ASwitch::OnPlayerEnter(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 			Target->Activate();
 		}
 	}
+	if (FocusCamera)
+	{
+		APlayerController* PC = Cast<APlayerController>(Pawn->GetController());
+		if (PC)
+		{
+			FocusingController = PC;
+			Pawn->DisableInput(PC);
+			PC->SetViewTargetWithBlend(FocusCamera, BlendTime);
+			GetWorldTimerManager().SetTimer(FocusTimerHandle, this, &ASwitch::EndFocus, FocusTime, false);
+		}
+	}
 }
+	void ASwitch::EndFocus()
+	{
+		if (FocusingController)
+		{
+			APawn* Pawn = FocusingController->GetPawn();
+			if (Pawn)
+			{
+				FocusingController->SetViewTargetWithBlend(Pawn, BlendTime);
+				Pawn->EnableInput(FocusingController);
+			}
+		}
+		FocusingController = nullptr;
+	}

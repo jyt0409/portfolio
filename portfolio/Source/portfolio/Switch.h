@@ -7,6 +7,7 @@
 class AGimmickBase;
 class UBoxComponent;
 class UMaterialInterface;
+class ACameraActor;
 
 UCLASS()
 class PORTFOLIO_API ASwitch : public AActor
@@ -37,6 +38,14 @@ protected:
 	UPROPERTY(EditAnyWhere)
 	UMaterialInterface* PressedMaterial;
 
+	UPROPERTY(EditInstanceOnly)
+	ACameraActor* FocusCamera;
+
+	UPROPERTY(EditAnyWhere)
+	float FocusTime = 4.0f;
+
+	UPROPERTY(EditAnyWhere)
+	float BlendTime = 2.0f;
 
 private:
 	UFUNCTION()
@@ -44,4 +53,9 @@ private:
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	bool bPressed = false;
+	void EndFocus();
+
+	UPROPERTY()
+	APlayerController* FocusingController;
+	FTimerHandle FocusTimerHandle;
 };
