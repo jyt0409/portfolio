@@ -37,8 +37,6 @@ protected:
 	UPROPERTY(EditAnyWhere)
 	UMaterialInterface* PressedMaterial;
 
-	UPROPERTY(EditAnyWhere)
-	float PressDepth = 5.0f;
 
 private:
 	UFUNCTION()
