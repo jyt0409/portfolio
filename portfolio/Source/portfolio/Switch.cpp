@@ -28,6 +28,14 @@ void ASwitch::BeginPlay()
 
 	// When something enters the box, call OnPlayerEnter
 	TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &ASwitch::OnPlayerEnter);
+	//Tell each target gimmick that this switch is connected to itB
+	for (AGimmickBase* Target:Targets)
+	{
+		if (Target)
+		{
+			Target->RegisterSwitch(this);
+		}
+	}
 }
 
 void ASwitch::OnPlayerEnter(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -57,7 +65,7 @@ void ASwitch::OnPlayerEnter(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	{
 		if (Target)
 		{
-			Target->Activate();
+			Target->NotifySwitchOn(this);
 		}
 	}
 	if (FocusCamera)

@@ -13,6 +13,13 @@ class PORTFOLIO_API AGimmickBase : public AActor
 	
 public:	
 	// Called by a switch
+	void RegisterSwitch(AActor* Switch);
+	void NotifySwitchOn(AActor* Switch);
 	virtual void Activate();
 
+    private:
+		TSet<AActor*> ConnectedSwitches;
+		TSet<AActor*> OnSwitches;
+
+		bool bActivated = false;
 };
