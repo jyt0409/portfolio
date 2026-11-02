@@ -1,5 +1,7 @@
 #include "ReticleHUD.h"
 #include "Engine/Canvas.h"
+#include "GameFramework/PlayerController.h"
+#include "Camera/PlayerCameraManager.h"
 
 void AReticleHUD::DrawHUD()
 {
@@ -9,7 +11,16 @@ void AReticleHUD::DrawHUD()
 	{
 		return;
 	}
+	if (PlayerOwner)
+	{
+		const bool bViewingPlayer = PlayerOwner->GetViewTarget() == PlayerOwner->GetPawn();
+		const bool bCameraMoving = PlayerOwner->PlayerCameraManager && PlayerOwner->PlayerCameraManager->PendingViewTarget.Target != nullptr;
 
+		if (!bViewingPlayer || bCameraMoving)
+		{
+			return;
+		}
+	}
 	
 	const float CX = Canvas->ClipX * 0.5f;
 	const float CY = Canvas->ClipY * 0.5f;
