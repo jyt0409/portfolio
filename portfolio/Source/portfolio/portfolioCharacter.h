@@ -11,7 +11,9 @@ class UInputComponent;
 class USkeletalMeshComponent;
 class UCameraComponent;
 class UInputAction;
+class UGrabComponent;
 struct FInputActionValue;
+
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -30,6 +32,9 @@ class AportfolioCharacter : public ACharacter
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
+	/**Grab Input Action*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,Category="Components",meta =(AllowPrivateAccess="true"))
+	UGrabComponent* GrabComponent;
 
 protected:
 
@@ -48,6 +53,10 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category ="Input")
 	class UInputAction* MouseLookAction;
+
+	/** Grab Input Action */
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* GrabAction;
 	
 public:
 	AportfolioCharacter();
@@ -59,6 +68,9 @@ protected:
 
 	/** Called from Input Actions for looking input */
 	void LookInput(const FInputActionValue& Value);
+
+	/** Called from Input Actions for grab input */
+	void GrabInput();
 
 	/** Handles aim inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")

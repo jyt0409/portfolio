@@ -9,6 +9,7 @@
 #include "InputActionValue.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "portfolio.h"
+#include "GrabComponent.h"
 
 AportfolioCharacter::AportfolioCharacter()
 {
@@ -42,6 +43,7 @@ AportfolioCharacter::AportfolioCharacter()
 	// Configure character movement
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
 	GetCharacterMovement()->AirControl = 0.5f;
+	GrabComponent = CreateDefaultSubobject<UGrabComponent>(TEXT("Grab Component"));
 }
 
 void AportfolioCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -59,6 +61,8 @@ void AportfolioCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		// Looking/Aiming
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AportfolioCharacter::LookInput);
 		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &AportfolioCharacter::LookInput);
+		//GrabingB
+		EnhancedInputComponent->BindAction(GrabAction, ETriggerEvent::Triggered, this, &AportfolioCharacter::GrabInput);
 	}
 	else
 	{
@@ -85,6 +89,13 @@ void AportfolioCharacter::LookInput(const FInputActionValue& Value)
 	// pass the axis values to the aim input
 	DoAim(LookAxisVector.X, LookAxisVector.Y);
 
+}
+void AportfolioCharacter::GrabInput()
+{
+	if (GrabComponent)
+	{
+		GrabComponent->ToggleGrab();
+	}
 }
 
 void AportfolioCharacter::DoAim(float Yaw, float Pitch)
