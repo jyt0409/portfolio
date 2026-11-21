@@ -11,6 +11,7 @@
 #include "portfolio.h"
 #include "GrabComponent.h"
 
+
 AportfolioCharacter::AportfolioCharacter()
 {
 	// Set size for collision capsule
@@ -61,8 +62,8 @@ void AportfolioCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		// Looking/Aiming
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AportfolioCharacter::LookInput);
 		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &AportfolioCharacter::LookInput);
-		//GrabingB
-		EnhancedInputComponent->BindAction(GrabAction, ETriggerEvent::Triggered, this, &AportfolioCharacter::GrabInput);
+		//Grabing
+		EnhancedInputComponent->BindAction(GrabAction, ETriggerEvent::Started, this, &AportfolioCharacter::GrabInput);
 	}
 	else
 	{
@@ -92,6 +93,7 @@ void AportfolioCharacter::LookInput(const FInputActionValue& Value)
 }
 void AportfolioCharacter::GrabInput()
 {
+	
 	if (GrabComponent)
 	{
 		GrabComponent->ToggleGrab();
